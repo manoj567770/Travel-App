@@ -4,8 +4,15 @@ const router = express.Router();
 const hotelDataFromDB = require("./model/hotel.model");
 
 router.route("/").get(async (req, res) => {
-  const hotels = await hotelDataFromDB.find({});
+  const hotelCategory = req.query.category;
+  let hotels;
   try {
+    if (hotelCategory) {
+      hotels = await hotelDataFromDB.find({ category: hotelCategory });
+    } else {
+      hotels = await hotelDataFromDB.find({});
+    }
+
     hotels
       ? res.json(hotels)
       : res.status(404).json({ message: "data not found" });

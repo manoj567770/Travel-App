@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const hotelRouter = require("./routes/hotel.router");
 const connectDB = require("./config/dbconfig");
 const hotelDataAddedInDataBase = require("./routes/dataimport.router");
+const categoryDataAddedInDataBase = require("./routes/dataImportCategory.router");
+const categoryRouter = require("./routes/category.router");
 
 const PORT = 3500;
 const app = express();
@@ -14,7 +16,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/hotels", hotelRouter);
+app.use("/api/hotelCategory", categoryRouter);
 app.use("/api/hotelsdata", hotelDataAddedInDataBase);
+app.use("/api/hotelcategory", categoryDataAddedInDataBase);
 
 mongoose.connection.once("open", () => {
   console.log("database connected");
