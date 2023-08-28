@@ -6,6 +6,8 @@ const hotelDataAddedInDataBase = require("./routes/dataimport.router");
 const categoryDataAddedInDataBase = require("./routes/dataImportCategory.router");
 const categoryRouter = require("./routes/category.router");
 const singleHotelRouter = require("./routes/singleHotelRouter");
+const authRouter = require("./routes/user.auth.router");
+const bodyParser = require("body-parser");
 
 const PORT = 3500;
 const app = express();
@@ -16,11 +18,14 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
+app.use(bodyParser.json());
+
 app.use("/api/hotels", hotelRouter);
 app.use("/api/hotelCategory", categoryRouter);
 app.use("/api/hotelsdata", hotelDataAddedInDataBase);
 app.use("/api/hotelcategory", categoryDataAddedInDataBase);
 app.use("/api/hotels", singleHotelRouter);
+app.use("/api/auth", authRouter);
 
 mongoose.connection.once("open", () => {
   console.log("database connected");
